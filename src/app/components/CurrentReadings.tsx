@@ -1,4 +1,5 @@
 import prisma from "../../../lib/prisma"
+import Link from "next/link"
 
 export default async function CurrentReadings() {
 
@@ -14,7 +15,8 @@ export default async function CurrentReadings() {
     return (
         <div className="mb-8">
         {books.map((book) => (
-        <div key={book.id} className="bg-gray-100 rounded-lg p-4 mb-4 w-full">
+        <Link key={book.id} href={`/books/${book.id}`}>
+         <div className="bg-gray-100 rounded-lg p-4 mb-4 w-full">
             <div className="flex justify-between items-start gap-2 mb-3">
               <h3 className="text-sm sm:text-base font-medium text-gray-900 flex-1 min-w-0">
                 {book.title}
@@ -30,6 +32,8 @@ export default async function CurrentReadings() {
               />
             </div>
         </div>
+        </Link>
+       
         ))}
         </div>
     )
