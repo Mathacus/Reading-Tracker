@@ -3,24 +3,24 @@ import prisma from "../../../../lib/prisma";
 
 export async function POST(request: NextRequest) {
     try {
-        const body = await request.json()
-        const {title, totalPages} = body
+        const body = await request.json();
+        const {title, totalPages} = body;
         
-        if (!title || typeof title !== 'string' || title === ''){
-            console.log("ERROR WITH STRING", title)
-            console.log(typeof title)
+        if (!title || typeof title !== "string" || title === ""){
+            console.log("ERROR WITH STRING", title);
+            console.log(typeof title);
             return NextResponse.json(
-                {error: 'Title is required'},
+                {error: "Title is required"},
                 {status: 400 }
-            )
+            );
         }
 
-        if(!totalPages || typeof totalPages !== 'number' || totalPages <= 0) {
-            console.log("ERROR WITH NUMBER")
+        if(!totalPages || typeof totalPages !== "number" || totalPages <= 0) {
+            console.log("ERROR WITH NUMBER");
             return NextResponse.json(
-                {error: 'Total pages must be greater than 0'},
+                {error: "Total pages must be greater than 0"},
                 {status: 400}
-            )
+            );
         }
 
         const newBook = await prisma.book.create({
@@ -30,15 +30,15 @@ export async function POST(request: NextRequest) {
                 readPages: 0,
                 completed: false
             }
-        })
+        });
 
-        return NextResponse.json(newBook, {status: 201})
+        return NextResponse.json(newBook, {status: 201});
 
     } catch (error) {
-        console.error('Error creating book:', error)
+        console.error("Error creating book:", error);
         return NextResponse.json(
-            {error: ' Failed to create book'},
+            {error: " Failed to create book"},
             {status: 500}
-        )
+        );
     }
 }

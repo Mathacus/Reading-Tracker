@@ -1,93 +1,45 @@
-'use client'
-import { useEffect, useState, use} from "react"
+import Calender from "@/app/components/Calender";
+import prisma from "../../../../lib/prisma";
+import Link from "next/link";
 
 type Props = {
-    params: Promise<{id: string}>
+    params: {id: string};
 };
 
-type PulledData = {
-    id: number
-    title: string
-    totalPages: number
-    readPages: number
-    completed: boolean
-    createdAt: Date
-    updatedAt: Date
-}
+export default async function Home({params}: Props) {
+    const {id} = await params;
 
-export default function Home({params}: Props) {
-    const {id} = use(params);
+    const book = await prisma.book.findUnique({
+            where: { id: Number(id) },
+    });
 
-    const [pulledData, setPulledData] = useState<PulledData | null>(null);
-
-    const [currentDate, setCurrentDate] = useState(new Date());
-
-    const year = currentDate.getFullYear();
-
-    const month = currentDate.getMonth() + 1;
-
-    const monthName = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"][month-1];
-
-    const monthLength = currentDate.getDate();
-
-    const incrementDate = () => {
-        setCurrentDate(new Date(year, month + 1, 0));
+    if(!book) {
+       throw new Error("Failed to load book");
     }
 
-    const decrementDate = () => {
-        setCurrentDate(new Date(year, month - 1, 0));
-    }
-
-    const getData = async () => {
-        const response = await fetch(`/api/books/${id}`)
-        return response.json()
-    }
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await getData();
-            setPulledData(response)
-        }
-        fetchData();
-    }, [])
     
 return (
     <>
-    <div className="flex items-center justify-between m-2">
+    <div className="">
+        <header className="border-b border-gray-200 bg-white w-full">
+        <div className="px-4 py-4 max-w-7xl mx-auto flex justify-between items-center">
+            <div className="flex items-center">
+            <Link href="/">
+                <span className="text-xl sm:text-2xl font-bold">B👀kTracker</span>
+            </Link>
+            </div>
+            <div>
+                <span className="text-gray-600 text-5xl font-bold">{book.title}</span>
+            </div>
+            <div>
+                <span className="text-lg font-semibold text-gray-900 border p-2 rounded-xl">{`${book.readPages}/${book.totalPages}`}</span>
+            </div>
+        </div>
+      </header>
         <div>
-            <h1>B👀kTracker</h1>
-            <h2>{pulledData?.title}</h2>
-            <h2>{`${pulledData?.readPages}/${pulledData?.totalPages}`}</h2>
+            <Calender bookTitle={book.title}/>
         </div>
-      <div>
-      <p className="text-6xl">{`${monthName} ${year}`}</p>
-      </div>
-      <div className="">
-        <button className="text-6xl" onClick={decrementDate}>{"<"}</button>
-        <button className="text-6xl" onClick={incrementDate}>{">"}</button>
-      </div>
-    </div>
-    <div className="grid grid-cols-5 m-2">
-      {
-       [...Array(monthLength)].map((x,i) => (
-        <div key={i} className="border relative p-32">
-          <span className="absolute bottom-1 right-1 text-s">{`${i + 1}-${month}-${year}`}</span>
-        </div>
-       ))
-      }
     </div>
     </>
-)
+);
 }

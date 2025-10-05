@@ -1,4 +1,4 @@
-import prisma from "../../../lib/prisma"
+import prisma from "../../../lib/prisma";
 
 export default async function ReadBooks() {
 
@@ -7,13 +7,13 @@ export default async function ReadBooks() {
             completed: true
         },
         orderBy: {
-            createdAt: 'desc'
+            createdAt: "desc"
         }
-    })
+    });
 
     const formatDate = (updatedAt: Date) => {
-        return updatedAt.toLocaleDateString('en-GB'); 
-    }
+        return updatedAt.toLocaleDateString("en-GB"); 
+    };
 
     return (
         <div>
@@ -34,5 +34,5 @@ export default async function ReadBooks() {
             </div>
             ))}
     </div>
-    )
+    );
 }

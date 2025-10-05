@@ -1,5 +1,5 @@
-import prisma from "../../../lib/prisma"
-import Link from "next/link"
+import prisma from "../../../lib/prisma";
+import Link from "next/link";
 
 export default async function CurrentReadings() {
 
@@ -8,9 +8,9 @@ export default async function CurrentReadings() {
             completed: false
         },
         orderBy: {
-            createdAt: 'desc'
+            createdAt: "desc"
         }
-    })
+    });
 
     return (
         <div className="mb-8">
@@ -36,5 +36,5 @@ export default async function CurrentReadings() {
        
         ))}
         </div>
-    )
+    );
 }

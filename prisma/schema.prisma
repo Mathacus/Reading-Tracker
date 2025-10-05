@@ -12,10 +12,21 @@ datasource db {
 
 model Book {
   id Int @id @default(autoincrement())
-  title String
+  title String @unique
   totalPages Int 
   readPages Int
   completed Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  readingSessions ReadingSession[]
 } 
+
+model ReadingSession {
+  id Int @id @default(autoincrement())
+  day DateTime
+  content String
+  bookTitle String
+  book Book @relation(fields: [bookTitle], references: [title])
+
+  @@unique([bookTitle, day])
+}

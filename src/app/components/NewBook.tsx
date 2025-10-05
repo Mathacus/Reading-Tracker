@@ -1,5 +1,5 @@
-'use client'
-import { useState } from "react"
+"use client";
+import { useState } from "react";
 
 type DataForForm = {
     title: string,
@@ -8,45 +8,45 @@ type DataForForm = {
 
 export default function NewBook() {
 
-    const [showPopup, setShowPopup] = useState(false)
+    const [showPopup, setShowPopup] = useState(false);
 
     const sendData = async (formData: DataForForm) => {
             try{
-                const response = await fetch('/api/books/', {
-                    method: 'POST',
+                const response = await fetch("/api/books/", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json",
                     },
                     body: JSON.stringify(formData)
-                })
+                });
 
-                const newBook = await response.json()
+                const newBook = await response.json();
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`)
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
             } catch(error) {
-                console.log("Failed to send data to api", error)
+                console.log("Failed to send data to api", error);
             }
-    }
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        const formData = new FormData(e.target as HTMLFormElement)
+        e.preventDefault();
+        const formData = new FormData(e.target as HTMLFormElement);
 
-        const title = formData.get('title') as string
-        const totalPages = formData.get('totalPages') as string
-        const dataFromForm = {'title': title, 'totalPages': Number(totalPages)}
+        const title = formData.get("title") as string;
+        const totalPages = formData.get("totalPages") as string;
+        const dataFromForm = {"title": title, "totalPages": Number(totalPages)};
 
         try {
-            sendData(dataFromForm)
+            sendData(dataFromForm);
         } catch(error){
-            console.log("Failed to send data", error)
+            console.log("Failed to send data", error);
         }
 
-        setShowPopup(false)
-    }
+        setShowPopup(false);
+    };
     
 return (
     <>
@@ -89,5 +89,5 @@ return (
             </div>
         )}     
     </>
-)
+);
 }

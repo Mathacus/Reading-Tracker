@@ -1,6 +1,6 @@
-import CurrentReadings from "./CurrentReadings"
-import ReadBooks from "./ReadBooks"
-import NewBook from "./NewBook"
+import CurrentReadings from "./CurrentReadings";
+import ReadBooks from "./ReadBooks";
+import NewBook from "./NewBook";
 
 export default function BookDisplay() {
     return (
@@ -14,5 +14,5 @@ export default function BookDisplay() {
         {/* Read Section */}
         <ReadBooks />
       </main>
-    )
+    );
 }

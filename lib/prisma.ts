@@ -1,14 +1,20 @@
 import { PrismaClient } from "@prisma/client";
 
+// Add prisma to the globalThis object in development to prevent multiple instances
+// during hot-reloading. This is a common pattern for Next.js and Prisma.
 declare global {
-    // eslint-disable-next-line no-var
-    var __prisma: PrismaClient | undefined
+  var prisma: PrismaClient | undefined;
 }
 
-const prisma = global.__prisma || new PrismaClient()
+let prisma: PrismaClient;
 
-if (process.env.NODE_ENV !== 'production'){
-    global.__prisma = prisma
+if (process.env.NODE_ENV === "production") {
+  prisma = new PrismaClient();
+} else {
+  if (!globalThis.prisma) {
+    globalThis.prisma = new PrismaClient();
+  }
+  prisma = globalThis.prisma;
 }
 
-export default prisma
+export default prisma;

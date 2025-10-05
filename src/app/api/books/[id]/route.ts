@@ -14,7 +14,7 @@ export async function GET(
 
         if(!book) {
             return NextResponse.json(
-                {error: 'Item not found'},
+                {error: "Item not found"},
                 {status: 404}
             );
         }
@@ -22,8 +22,8 @@ export async function GET(
         return NextResponse.json(book);
     } catch (error) {
         return NextResponse.json(
-            {error: 'item not found'},
+            {error: "item not found"},
             {status: 500}
-        )
+        );
     }
 }
